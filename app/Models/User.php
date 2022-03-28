@@ -8,11 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Notifications\Notifiable;
-
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens ,HasFactory, Notifiable;
+
+    public function autentic()
+    {
+        return $this->hasOne(autentic::class);
+    }
 
     /**
      * The attributes that are mass assignable.

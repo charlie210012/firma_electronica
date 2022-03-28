@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\firmaController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\Auth\ForgotPassword;
@@ -50,4 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/laravel-user-profile', UserProfile::class)->name('user-profile');
     Route::get('/laravel-user-management', UserManagement::class)->name('user-management');
 });
+
+Route::get('/GenereSignature',[firmaController::class,'Generatefirma']);
+
+Route::get('/custody/{tokenView}',[firmaController::class,'custody']);
 

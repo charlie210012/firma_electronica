@@ -51,7 +51,7 @@
             <div>
                 @include('layouts.navbars.guest.sign-up')
                 {{ $slot }}
-                @include('layouts.footers.guest.with-socials')
+                @include('layouts.footers.auth.footer')
             </div>
         @endif
     @endguest
