@@ -39,6 +39,10 @@ class firmaController extends Controller
      */
     public function store(Request $request)
     {
+        //delegar la responsabilidad de verificacion a la plataforma
+
+        return $request->all();
+        die();
         
         //Recordar hacer una validacion de datos
         if(isset($request)){
