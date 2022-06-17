@@ -27,6 +27,6 @@ class sendOtp
      */
     public function handle(signatureRequest $event)
     {
-        Mail::to($event->data["usuario"]["email"])->send(new \App\Mail\sendOtpNotification($event));
+        Mail::to($event->data["email"])->send(new \App\Mail\sendOtpNotification($event));
     }
 }

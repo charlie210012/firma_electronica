@@ -1,8 +1,11 @@
 <?php
 
+use App\Models\firma;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Passport\Client;
 
 class CreateTokenViewsTable extends Migration
 {
@@ -15,9 +18,12 @@ class CreateTokenViewsTable extends Migration
     {
         Schema::create('token_views', function (Blueprint $table) {
             $table->id();
-            $table->integer('firma_id');
-            $table->string('tokenView');
+            $table->foreignIdFor(firma::class);
+            $table->foreignIdFor(Client::class);
+            $table->foreignIdFor(User::class);
+            $table->string('tokenView')->index();
             $table->timestamps();
+
         });
     }
 

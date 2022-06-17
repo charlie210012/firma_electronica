@@ -1,8 +1,10 @@
 <?php
 
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Passport\Client;
 
 class CreateUsersTable extends Migration
 {
@@ -17,10 +19,9 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('email')->unique();
-            $table->integer('typeUser')->nullable();
-            $table->string('business_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->foreignIdFor(Client::class)->index();
             $table->rememberToken();
             $table->timestamps();
         });

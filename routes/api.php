@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\API\firmaController;
+use App\Http\Controllers\API\SignController;
 use App\Http\Controllers\API\TenantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,16 +21,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/user',[AuthController::class,'create']); //proteger con api
+Route::post('/user',[AuthController::class,'create'])->middleware('client');
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/sign', [SignController::class, 'store'])->middleware('client');
 
-Route::post('/business',[TenantController::class,'create']);
+// Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/business/auth',[TenantController::class,'login']);
+// Route::post('/business',[TenantController::class,'create']);
 
-Route::get('/sign', [firmaController::class, 'index'])->middleware('auth:api'); //aun no se usa
+// Route::post('/business/auth',[TenantController::class,'login']);
 
-Route::post('/sign', [firmaController::class, 'store']);
+// Route::get('/sign', [firmaController::class, 'index'])->middleware('auth:api'); //aun no se usa
 
-Route::post('/confirmar',[firmaController::class, 'confirm'])->middleware('auth:api');
+
+
+// Route::post('/confirmar',[firmaController::class, 'confirm'])->middleware('auth:api');

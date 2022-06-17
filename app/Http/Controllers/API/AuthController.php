@@ -7,14 +7,18 @@ use App\Models\tenant;
 use Illuminate\Http\Request;
 use Laravel\Passport\Passport;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Passport\Client;
 
 //cambiar a user controler
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        //funcion no hace nada depurar
         $user=Validator::make($request->all(),[
             'email'=>'email|required',
             'password'=>'required',
@@ -45,44 +49,30 @@ class AuthController extends Controller
 
     public function create(Request $request)
     {
-       
+
+        //validar si cliente existe
         $userData=Validator::make($request->all(),[
+            'name'=>'string|required',
             'email'=>'email|required',
             'password'=>'required',
-            'nit'=>'required',
-            'typeUser'=>'required'
-
+            'client_id'=>'required'
         ]);
 
         if ($userData->fails()) {
             return response([
                 'mensaje'=> 'Todos los datos necesarios'
-                // 'recurso' => 'Registrate en la siguiente url',
-                // 'url' => env('APP_URL').'sign-up'
             ]);
         }
 
-        $tenantexist = tenant::where('nit',$request->nit)->first();
-
-        if(!$tenantexist){
-            return response([
-                'mensaje'=> 'El negocio no esta registrado en el sistema'
-                // 'recurso' => 'Registrate en la siguiente url',
-                // 'url' => env('APP_URL').'sign-up'
-            ]);
-        }
-        //validar existencia
         User::create([
+            'name'=>$request->name,
             'email'=>$request->email,
-            'password'=>$request->password,
-            'typeUser'=>$request->typeUser,
-            'business_id'=>$tenantexist->id,
+            'password'=>Hash::make($request->password),
+            'client_id'=>$request->client_id
         ]);
 
         return response([
-            'mensaje'=> 'El recurso ha sido registrado con exito'
-            // 'recurso' => 'Registrate en la siguiente url',
-            // 'url' => env('APP_URL').'sign-up'
+            'mensaje'=> 'El usuario ha sido registrado con exito'
         ]);
 
     }
