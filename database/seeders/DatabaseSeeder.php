@@ -17,18 +17,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => 'Carlo Andres Arevalo',
-            'email' => 'carevalo@nexura.com',
-            'password' => Hash::make(12345678)
-        ]);
+        // User::create([
+        //     'name' => 'Carlo Andres Arevalo',
+        //     'email' => 'carevalo@nexura.com',
+        //     'password' => Hash::make(12345678)
+        // ]);
 
-        autentic::create([
-            'user_id'=>1,
-            'identifier'=>1144170160,
-            'expeditionDate'=>1310515200,
-            'phone'=>3177864344,
-            'birthdayDate'=>738028800
-        ]);
+        // autentic::create([
+        //     'user_id'=>1,
+        //     'identifier'=>1144170160,
+        //     'expeditionDate'=>1310515200,
+        //     'phone'=>3177864344,
+        //     'birthdayDate'=>738028800
+        // ]);
     }
 }

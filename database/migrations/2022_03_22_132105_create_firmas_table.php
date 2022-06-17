@@ -18,7 +18,9 @@ class CreateFirmasTable extends Migration
             $table->integer('user_id');
             $table->string('verify');
             $table->string('url');
+            $table->string('name_document');
             $table->string('otp');
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }

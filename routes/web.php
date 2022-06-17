@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\firmaController;
+use App\Http\Controllers\API\SignController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\Auth\ForgotPassword;
@@ -54,5 +55,9 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/GenereSignature',[firmaController::class,'Generatefirma']);
 
-Route::get('/custody/{tokenView}',[firmaController::class,'custody']);
+Route::get('/custody/{tokenView}',[SignController::class,'custody']);
+
+Route::post('/custody',[SignController::class,'process'])->name('custody');
+Route::get('/document/{dir}',[SignController::class,'document'])->name('document');
+Route::post('/sign',[SignController::class,'sign'])->name('sign');
 

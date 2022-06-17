@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Solicitud de firma</h1>
+    <p>Debe ingresar a este link {{url("/custody/".$data->data['tokenView'])}}
     <p>usa esta otp {{$data->data['otp']}} para confirmar tu solicitud</p>
 </body>
 </html>
