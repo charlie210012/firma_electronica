@@ -1,13 +1,10 @@
 <?php
 
-use App\Models\firma;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Laravel\Passport\Client;
 
-class CreateTokenViewsTable extends Migration
+class CreateTenantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,14 +13,14 @@ class CreateTokenViewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('token_views', function (Blueprint $table) {
+        Schema::create('tenants', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(firma::class);
-            $table->foreignIdFor(Client::class);
-            $table->foreignIdFor(User::class);
-            $table->string('tokenView')->index();
+            $table->string('tenant',255);
+            $table->string('verify',255)->nullable();
+            $table->bigInteger('nit');
+            $table->bigInteger('phone');
+            $table->string('email',255);
             $table->timestamps();
-
         });
     }
 
@@ -34,6 +31,6 @@ class CreateTokenViewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('token_views');
+        Schema::dropIfExists('tenants');
     }
 }

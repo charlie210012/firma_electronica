@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-    <h1>Ejemplo de firma</h1>
-    <p>Aqui va la firma</p>
+    @foreach ($firmas as $firma)
+    <div>{{$usuarios->where('id',$firma->user_id)->first()->name}}</div>
+    @endforeach
 </body>
 </html>
