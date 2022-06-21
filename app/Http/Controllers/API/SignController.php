@@ -9,11 +9,13 @@ use App\Models\firma;
 use App\Models\tokenView;
 use App\Models\User;
 use App\Services\ValidateClient\ValidateClient;
+use App\Services\ValidateRequest\ValidateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
+use Laravel\Passport\Client;
 use PDF;
 use PDFMerger;
 
@@ -45,6 +47,11 @@ class SignController extends Controller
     {
         //delegar la responsabilidad de verificacion a la plataforma
         //Recordar hacer una validacion de datos
+        $evaluate = ValidateRequest::evaluate($request,'Sign');
+        if(!empty($evaluate)) {
+            return $evaluate;
+        }
+
         $client_id = ValidateClient::client($request->bearerToken());
         if(isset($request)){
             $users = User::where([
@@ -158,6 +165,7 @@ class SignController extends Controller
             $firma = firma::find($registro->firma_id);
             $user = User::find($registro->user_id);
             $autentic = autentic::where('user_id',$registro->user_id)->first();
+            $client = Client::find($registro->client_id);
 
             if(!$autentic){
                 return view('custody.autentic',[
@@ -169,13 +177,15 @@ class SignController extends Controller
                         'registro'=> $registro,
                         'user'=>$user,
                         'firma'=>$firma,
+                        'cliente'=>$client,
                         'status'=>true
                     ]);
                 }
                 return view('custody.custody',[
                     'registro'=> $registro,
                     'user'=>$user,
-                    'firma'=>$firma
+                    'firma'=>$firma,
+                    'cliente'=>$client,
                 ]);
             }
         }
