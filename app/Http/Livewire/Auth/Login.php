@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Auth;
 
 use Livewire\Component;
 use App\Models\User;
+use Laravel\Passport\Bridge\Client as BridgeClient;
+
 
 class Login extends Component
 {
@@ -20,7 +22,7 @@ class Login extends Component
         if(auth()->user()){
             redirect('/dashboard');
         }
-        $this->fill(['email' => 'carlos@pruebas.com', 'password' => 12345678]);
+        $this->fill(['email' => 'admin@nexura.com', 'password' => 12345678]);
     }
 
     public function login() {
@@ -28,7 +30,8 @@ class Login extends Component
         if(auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remember_me)) {
             $user = User::where(["email" => $this->email])->first();
             auth()->login($user, $this->remember_me);
-            return redirect()->intended('/dashboard');        
+            return redirect()->intended('/dashboard');
+            
         }
         else{
             return $this->addError('email', trans('auth.failed')); 
