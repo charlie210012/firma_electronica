@@ -7,68 +7,57 @@ use App\Models\tenant;
 use Illuminate\Http\Request;
 use Laravel\Passport\Passport;
 use App\Models\User;
+use App\Services\ValidateClient\ValidateClient;
+use App\Services\ValidateRequest\ValidateRequest;
+use Firebase\JWT\JWT;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Client;
+use Laravel\Passport\Http\Controllers\AuthorizationController;
+use Laravel\Passport\Http\Controllers\ClientController;
+use Laravel\Passport\PassportUserProvider;
+use Laravel\Passport\Token;
+use Symfony\Bridge\PsrHttpMessage\ArgumentValueResolver\PsrServerRequestResolver;
+use Laravel\Passport\Guards\TokenGuard;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 
 //cambiar a user controler
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function index(Request $request)
     {
-        //funcion no hace nada depurar
-        $user=Validator::make($request->all(),[
-            'email'=>'email|required',
-            'password'=>'required',
-            'nit'=>'required',
-            'typeUser'=>'required'
+        $client_id = ValidateClient::client($request->bearerToken());
+        //usar resource
+        //validar si el business_id pertenece al cliente
+        return response([
+            'Usuario registrados en el negocio'=>User::where([
+                'client_id'=>$client_id,
+                'business_id'=>$request->business_id
+                ])->get()
         ]);
-        if ($user->fails()) {
-            return response([
-                'mensaje'=> 'Todos los datos son requeridos'
-                // mejorar respuesta
-            ]);
-        }
-       $tenantexist = tenant::where('nit',$request->nit)->first();
-
-       return $tenantexist;
-       die();
 
         
-        $accessToken = Auth()->user()->createToken('authToken')->accessToken;
-
-        return response([
-            'user' => Auth()->user(),
-            'accessToken'=> $accessToken
-        ]);
-
-
     }
 
     public function create(Request $request)
     {
-
-        //validar si cliente existe
-        $userData=Validator::make($request->all(),[
-            'name'=>'string|required',
-            'email'=>'email|required',
-            'password'=>'required',
-            'client_id'=>'required'
-        ]);
-
-        if ($userData->fails()) {
-            return response([
-                'mensaje'=> 'Todos los datos necesarios'
-            ]);
+        $evaluate = ValidateRequest::evaluate($request,'User');
+        if(!empty($evaluate)) {
+            return $evaluate;
         }
+        
+        $client_id = ValidateClient::client($request->bearerToken());
 
+        
         User::create([
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>Hash::make($request->password),
-            'client_id'=>$request->client_id
+            'client_id'=>$client_id,
+            'business_id'=>$request->business_id
         ]);
 
         return response([

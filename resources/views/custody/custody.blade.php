@@ -7,11 +7,11 @@
                     <div class="card card-plain mt-8">
                         <div class="card-header pb-0 text-left bg-transparent">
                             <h3 class="font-weight-bolder text-info text-gradient">{{ __('Hola') }} {{$user->name}}</h3>
-                            @if (!session('status'))
+                            @if (!isset($status))
                             <p class="mb-0">{{ __('Tienes un documento pendiente por firmar')}}<br></p>
                             @endif
                         </div>
-                        @if (session('status'))
+                        @if (isset($status))
                             <div class="alert alert-success">
                                 {{ 'El documento ha sido firmado exitosamente' }}
                             </div>
@@ -30,7 +30,7 @@
                               </tr>
                             </tbody>
                           </table>
-                        @if (!session('status'))
+                        @if (!isset($status))
                         <div class="card-body col-xl-6">
                             <form  action="{{url('/sign')}}" method="POST" role="form text-left">
                                 @csrf

@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Models\Business;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,12 +18,15 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignIdFor(Client::class)->index();
+            $table->foreignIdFor(Client::class);
+            $table->foreignIdFor(Business::class);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->index(['client_id','business_id','email']);
         });
     }
 
