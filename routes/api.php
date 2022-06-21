@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\BusinessController;
 use App\Http\Controllers\API\SignController;
 use App\Http\Controllers\API\TenantController;
 use Illuminate\Http\Request;
@@ -23,16 +24,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/user',[AuthController::class,'create'])->middleware('client');
 
+Route::get('/users/{business_id}',[AuthController::class,'index'])->middleware('client');
+
 Route::post('/sign', [SignController::class, 'store'])->middleware('client');
 
-// Route::post('/login', [AuthController::class, 'login']);
+Route::post('/business', [BusinessController::class, 'create'])->middleware('client');
 
-// Route::post('/business',[TenantController::class,'create']);
-
-// Route::post('/business/auth',[TenantController::class,'login']);
-
-// Route::get('/sign', [firmaController::class, 'index'])->middleware('auth:api'); //aun no se usa
-
-
-
-// Route::post('/confirmar',[firmaController::class, 'confirm'])->middleware('auth:api');
+Route::get('/business', [BusinessController::class, 'index'])->middleware('client');

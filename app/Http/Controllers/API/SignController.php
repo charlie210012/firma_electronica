@@ -8,6 +8,7 @@ use App\Models\autentic;
 use App\Models\firma;
 use App\Models\tokenView;
 use App\Models\User;
+use App\Services\ValidateClient\ValidateClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -42,11 +43,14 @@ class SignController extends Controller
      */
     public function store(Request $request)
     {
-        // var_dump($request->all());
         //delegar la responsabilidad de verificacion a la plataforma
         //Recordar hacer una validacion de datos
+        $client_id = ValidateClient::client($request->bearerToken());
         if(isset($request)){
-            $users = User::where('client_id',$request->client_id)->get();
+            $users = User::where([
+                'client_id'=>$client_id,
+                'business_id'=>$request->business_id
+                ])->get();
 
             // var_dump($users);
             // die();
@@ -63,15 +67,18 @@ class SignController extends Controller
                         $rastro = firma::create([
                             'name_document' => $request->nameDocument,
                             'user_id'=>$user->id,
-                            'verify'=>Hash::make($user->id.$request->client_id.now()),
+                            'business_id'=>$request->business_id,
+                            'verify'=>Hash::make($user->id.$client_id.$request->nameDocument.now()),
                             'url'=>$request->file('document')->hashName(),
-                            'otp'=>Str::random(6)
+                            'otp'=>Str::random(6),
+                            'status'=>0
                         ]);
                         $token = tokenView::create([
                             'firma_id'=>$rastro->id,
-                            'client_id'=>$request->client_id,
+                            'client_id'=>$client_id,
                             'user_id'=>$user->id,
-                            'tokenView'=>md5('verify'.$user->id.$request->client_id.'view')
+                            'business_id'=>$request->business_id,
+                            'tokenView'=>md5('verify'.$user->id.$client_id.$request->business_id.$rastro->id.now().'view')
                         ]);
                         $data = [
                             'otp' =>$rastro->otp,
@@ -120,7 +127,8 @@ class SignController extends Controller
     public function Generatefirma($firmas)
     {
         //mejorar querys con relaciones
-        $client =  User::find($firmas->first()->user_id)->client_id;
+    
+        $client =  User::find($firmas[0]->user_id)->client_id;
         $users = User::where('client_id',$client)->get();
         $pdf = PDF::loadView('firmas.firma',[
             'firmas'=>$firmas,
@@ -160,8 +168,9 @@ class SignController extends Controller
                     return view('custody.custody',[
                         'registro'=> $registro,
                         'user'=>$user,
-                        'firma'=>$firma
-                    ])->with('status',true);
+                        'firma'=>$firma,
+                        'status'=>true
+                    ]);
                 }
                 return view('custody.custody',[
                     'registro'=> $registro,
@@ -201,9 +210,10 @@ class SignController extends Controller
             'url'=>$request->dir,
             'status'=>1
             ])->get();
-        
 
-        if(!$firmas){
+    
+
+        if(!isset($firmas[0])){
             if($request->dir){
                 $filename = '/app/public/document/'.$request->dir;
                 $path = storage_path($filename);

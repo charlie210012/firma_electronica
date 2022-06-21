@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Business;
 use App\Models\firma;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -21,6 +22,7 @@ class CreateTokenViewsTable extends Migration
             $table->foreignIdFor(firma::class);
             $table->foreignIdFor(Client::class);
             $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Business::class);
             $table->string('tokenView')->index();
             $table->timestamps();
 
