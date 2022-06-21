@@ -3,8 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Passport\Client;
 
-class CreateTenantsTable extends Migration
+class CreateBusinessesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +14,10 @@ class CreateTenantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tenants', function (Blueprint $table) {
+        Schema::create('businesses', function (Blueprint $table) {
             $table->id();
-            $table->string('tenant',255);
-            $table->string('verify',255)->nullable();
-            $table->bigInteger('nit');
-            $table->bigInteger('phone');
-            $table->string('email',255);
+            $table->string('business_name');
+            $table->foreignIdFor(Client::class);
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateTenantsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tenants');
+        Schema::dropIfExists('businesses');
     }
 }
