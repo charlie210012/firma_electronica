@@ -24,4 +24,12 @@ class ValidateContract
         ];
         return $contracts;
     }
+
+    public static function SignContracts()
+    {
+        $contracts = [
+            
+        ];
+        return $contracts;
+    }
 }

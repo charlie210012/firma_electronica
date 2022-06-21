@@ -8,7 +8,7 @@
                         <div class="card-header pb-0 text-left bg-transparent">
                             <h3 class="font-weight-bolder text-info text-gradient">{{ __('Hola') }} {{$user->name}}</h3>
                             @if (!isset($status))
-                            <p class="mb-0">{{ __('Tienes un documento pendiente por firmar')}}<br></p>
+                            <p class="mb-0">{{ __('Tienes un documento pendiente por firmar para ')}} {{$cliente->name}}<br></p>
                             @endif
                         </div>
                         @if (isset($status))
