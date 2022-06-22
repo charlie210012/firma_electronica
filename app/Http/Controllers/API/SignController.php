@@ -91,7 +91,8 @@ class SignController extends Controller
                             'otp' =>$rastro->otp,
                             'email'=>$user->email,
                             'tokenView'=>$token->tokenView,
-                            'rastro' =>$rastro
+                            'rastro' =>$rastro,
+                            'nameDocument'=>$request->nameDocument
                         ];
                         event(new signatureRequest($data));
                     }
