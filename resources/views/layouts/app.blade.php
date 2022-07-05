@@ -22,7 +22,8 @@
             </div>
             @include('components.plugins.fixed-plugin')
         @else
-            @include('layouts.navbars.auth.sidebar')
+        {{ $slot }}
+            {{-- @include('layouts.navbars.auth.sidebar')
             @include('layouts.navbars.auth.nav')
             @include('components.plugins.fixed-plugin')
             {{ $slot }}
@@ -32,7 +33,7 @@
                         @include('layouts.footers.auth.footer')
                     </div>
                 </div>
-            </main>
+            </main> --}}
         @endif
     @endauth
 
