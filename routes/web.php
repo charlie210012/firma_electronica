@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/laravel-user-management', UserManagement::class)->name('user-management');
 });
 
-Route::get('/GenereSignature',[firmaController::class,'Generatefirma']);
+// Route::get('/GenereSignature',[firmaController::class,'Generatefirma']);
 
 Route::get('/custody/{tokenView}',[SignController::class,'custody']);
 
