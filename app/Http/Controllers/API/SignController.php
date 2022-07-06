@@ -20,7 +20,6 @@ use Laravel\Passport\Client;
 use PDF;
 use PDFMerger;
 
-use function PHPUnit\Framework\isNull;
 
 class SignController extends Controller
 {
@@ -46,8 +45,7 @@ class SignController extends Controller
      */
     public function store(Request $request)
     {
-        date_default_timezone_set('America/Bogota');
-        //delegar la responsabilidad de verificacion a la plataforma
+        //Delegar la responsabilidad de verificacion a la plataforma
         //Recordar hacer una validacion de datos
         $evaluate = ValidateRequest::evaluate($request,'Sign');
         if(!empty($evaluate)) {
