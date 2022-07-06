@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Events\signatureRequest;
 use App\Http\Controllers\Controller;
 use App\Models\autentic;
+use App\Models\Business;
 use App\Models\firma;
 use App\Models\tokenView;
 use App\Models\User;
@@ -45,6 +46,7 @@ class SignController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('America/Bogota');
         //delegar la responsabilidad de verificacion a la plataforma
         //Recordar hacer una validacion de datos
         $evaluate = ValidateRequest::evaluate($request,'Sign');
@@ -135,12 +137,20 @@ class SignController extends Controller
     public function Generatefirma($firmas)
     {
         //mejorar querys con relaciones
+
+        date_default_timezone_set('America/Bogota');
     
         $client =  User::find($firmas[0]->user_id)->client_id;
+        $dateClient = Client::find($client);
         $users = User::where('client_id',$client)->get();
+        $autentic = autentic::all();
+        $business = Business::all();
         $pdf = PDF::loadView('firmas.firma',[
             'firmas'=>$firmas,
-            'usuarios'=>$users
+            'usuarios'=>$users,
+            'autentic'=>$autentic,
+            'cliente'=>$dateClient,
+            'negocios'=>$business
         ])
         ->save(storage_path('/app/public/signature/') .$client. 'archivo.pdf');
     }

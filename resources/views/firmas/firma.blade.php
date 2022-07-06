@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,9 +13,18 @@
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">{{$usuarios->where('id',$firma->user_id)->first()->name}}</h5>
-              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              <h5 class="card-title">{{$usuarios->where('id',$firma->user_id)->first()->name}} - {{$autentic->where('user_id',$firma->user_id)->first()->identifier}}</h5>
+              <hr>
+              <h5 class="card-title">Registros de notificación</h5>
+              <p class="card-text">Fecha y hora de envio de notificacion: {{date($firma->created_at)}}</p>
+              <p class="card-text">Fecha y hora de envio de OTP: {{date($firma->created_at)}}</p>
+              <p class="card-text">Fecha y hora de firma: {{date($firma->updated_at)}}</p>
+              <p class="card-text">Correo de notificación: {{$usuarios->where('id',$firma->user_id)->first()->email}}</p>
+              <p class="card-text">Rastro de firma: {{$firma->verify}}</p>
+              <hr>
+              <h5 class="card-title">Registros del cliente</h5>
+              <p class="card-text">Nombre de cliente: {{$cliente->name}}</p>
+              <p class="card-text">Nombre del negocio asociado: {{$negocios->where('id',$firma->business_id)->first()->business_name}}</p>
             </div>
           </div>
         </div>
