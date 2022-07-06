@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\firmaController;
 use App\Http\Controllers\API\SignController;
+use App\Http\Controllers\ClientsController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\Auth\ForgotPassword;
@@ -42,6 +43,8 @@ Route::get('/login/forgot-password', ForgotPassword::class)->name('forgot-passwo
 Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')->middleware('signed');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
+    Route::post('/clients', [ClientsController::class, 'create']);
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/billing', Billing::class)->name('billing');
     Route::get('/profile', Profile::class)->name('profile');
