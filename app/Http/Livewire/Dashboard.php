@@ -9,8 +9,8 @@ class Dashboard extends Component
 {
     public function render()
     {
-        return view('livewire.dashboard',[
-            'clientes'=>Client::all(),
+        return view('Admin.home',[
+            'clients'=>Client::all()
         ]);
     }
 }
