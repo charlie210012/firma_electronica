@@ -11,7 +11,7 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Numero de clientes activos</p>
+                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Numero de firmas culminadas</p>
                                     <h5 class="font-weight-bolder mb-0">
                                         {{$clients->count()}}  
                                     </h5>
@@ -51,7 +51,7 @@
                                     <h5 class="font-weight-bolder">API integración</h5>
                                     <p class="mb-5">La documentacion necesario para realizar la integración la encontraras en el link.</p>
                                     <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto"
-                                        href="javascript:;">
+                                        href="https://documenter.getpostman.com/view/21600536/UzBpLRgN#a9c35ee9-05a1-4c71-899b-4b4a17d2122b" target="_blank">
                                         Leer más
                                         <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
                                     </a>
