@@ -19,15 +19,17 @@ class ClientsController extends Controller
 
     public function create(ClientController $Clients, Request $request)
     {
-        $data = [
-            'name'=>$request->name,
-            'redirect'=>$request->redirect,
-            'confidential'=>true
-        ];
-
-        $info = json_decode(json_encode($data),true);
-        $response = $Clients->store($info);
-        Log::info($response);
+        
+        $response = $Clients->store($request);
+        if ($response){
+            return response([
+                'status'=> 'OK'
+            ]);
+        }else{
+            return response([
+                'status'=> 'ERROR'
+            ]);
+        }
     }
     
 }

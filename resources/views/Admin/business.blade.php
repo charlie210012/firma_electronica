@@ -1,9 +1,9 @@
 @extends('Admin.layouts.admin')
 
 @section('content')
-    @include('Admin.modals.accountOwn')
-    {{-- @include('modals.accountOther')
-    @include('modals.registerOther') --}}
+    {{-- @include('Admin.modals.accountOwn') --}}
+    @include('Admin.modals.accountOther')
+    {{-- @include('modals.registerOther') --}}
 
     <main class="main-content">
         <div class="container-fluid py-4">
@@ -14,9 +14,9 @@
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
-                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Numero de clientes activos</p>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Numero de Negocios activos</p>
                                         <h5 class="font-weight-bolder mb-0">
-                                            {{$clients->where('revoked', 0)->count()}}  
+                                            {{$business->where('revoked',0)->count()}}  
                                         </h5>
                                     </div>
                                 </div>
@@ -51,11 +51,11 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="numbers">
-                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Crear Nuevo cliente</p>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Crear nuevo negocio</p>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#ownModal"
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#otherModal"
                                         class="btn btn-success">Crear</button>
                                 </div>
                             </div>
@@ -105,12 +105,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-7">
                                     <h6>Clientes</h6>
-                                    {{-- <p class="text-sm mb-0">
-                                        <i class="fa fa-check text-info" aria-hidden="true"></i>
-                                        <span
-                                            class="font-weight-bold ms-1">{{ Auth::user()->accounts->where('status', 'Activa')->count() }}
-                                            cuentas</span> Activas
-                                    </p> --}}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -120,39 +115,36 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                id del cliente
+                                                id del negocio
                                             </th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                nombre del cliente</th>
+                                                Nombre del negocio
+                                            </th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Secret</th>
+                                                Nombre del cliente</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Token</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                url de retorno</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Borrar Cliente</th>
-                                            {{-- <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                Estado
-                                            </th> --}}
+                                                Borrar Negocio</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
-                                        @foreach ($clients->where('revoked',0) as $client)
+                                        @foreach ($business->where('revoked',0) as $a)
                                             <tr>
                                                 <td>
                                                     <div class="d-flex px-2 py-1">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">{{ $client->id }}</h6>
+                                                            <h6 class="mb-0 text-sm">{{ $a->id }}</h6>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex px-2 py-1">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">{{ $client->name }}</h6>
+                                                            <h6 class="mb-0 text-sm">{{ $a->business_name}}</h6>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -163,52 +155,18 @@
                                                                 class="avatar avatar-sm me-3">
                                                         </div>
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">{{ $client->secret }}</h6>
+                                                            <h6 class="mb-0 text-sm">{{ $clients->find($a->client_id)->name }}</h6>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                {{-- <td>
-                                                    <div class="avatar-group mt-2">
-                                                        @foreach($account->transactionsAdd as $a)
-                                                        <a href="javascript:;" class="avatar avatar-xs rounded-circle"
-                                                            data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                            title="{{$a->user->name}}">
-                                                            <img alt="Image placeholder" src="../storage/img/team-2.jpg">
-                                                        </a>
-                                                        @endforeach
-                                                    </div>
-                                                </td> --}}
+                                                
                                                 <td class="align-middle text-center text-sm">
-                                                    <span class="text-xs font-weight-bold"> {{ $client->redirect }} </span>
+                                                    <span class="text-xs font-weight-bold"> {{ $a->token }} </span>
                                                 </td>
                                                 <td class="align-middle text-center text-sm">
-                                                    <span class="text-xs font-weight-bold"><button type="button" class="btn btn-warning" onclick="borrar({{$client->id}})">Borrar</button></span>
+                                                    <span class="text-xs font-weight-bold"><button type="button" class="btn btn-warning" onclick="borrarBusiness({{$a->id}})">Borrar</button></span>
                                                 </td>
-                                                {{-- <td class="align-middle text-center text-sm">
-                                                    <span class="text-xs font-weight-bold">
-                                                        {{ number_format(Auth::user()->consolidateds->find($account->id)->value, '2', ',', '.') }}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <div class="progress-wrapper w-75 mx-auto">
-                                                    <div class="progress-info">
-                                                        <div class="progress-percentage">
-                                                            <span class="text-xs font-weight-bold">60%</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-gradient-info w-60" role="progressbar"
-                                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <a type="button" href="{{ route('status') }}"
-                                                                class="btn btn-info">Ver reporte</a>
-                                                        </div>
-                                                    </div>
-
-                                                </td> --}}
+                                                
                                             </tr>
                                         @endforeach
                                     </tbody>
