@@ -1,8 +1,11 @@
 <?php
 
+
 use App\Http\Controllers\API\firmaController;
 use App\Http\Controllers\API\SignController;
+use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\DocumentsController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\Auth\ForgotPassword;
@@ -19,7 +22,7 @@ use App\Http\Livewire\Rtl;
 
 use App\Http\Livewire\LaravelExamples\UserProfile;
 use App\Http\Livewire\LaravelExamples\UserManagement;
-
+use Facade\FlareClient\Http\Client;
 use Illuminate\Http\Request;
 
 /*
@@ -45,6 +48,10 @@ Route::get('/reset-password/{id}',ResetPassword::class)->name('reset-password')-
 Route::middleware('auth')->group(function () {
     Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
     Route::post('/clients', [ClientsController::class, 'create']);
+    Route::get('/business',[BusinessController::class,'index'])->name('business');
+    Route::post('/business',[BusinessController::class,'create']);
+    Route::post('/business/{id}',[BusinessController::class,'destroy']);
+    Route::get('/documents',[DocumentsController::class,'index'])->name('documents');
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/billing', Billing::class)->name('billing');
     Route::get('/profile', Profile::class)->name('profile');
