@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
-                <h5 class="modal-title" id="titulomodal">Transferir a cuentas de terceros</h5>
+                <h5 class="modal-title" id="titulomodal">Crear negocio</h5>
             </div>
             
             <div class="modal-body">
@@ -12,35 +12,35 @@
                 <div class="tile">
                     <div class="tile-body">
                     
-                        <form id="otherTransfer" name="otherTransfer" method="POST">
+                        <form id="addBusiness" name="addBusiness" method="POST">
             
                             <div class="form-group">
                                 <div class="alert alert-dark" role="alert">
                                     <p class="text-white text-center" >Los campos con (*) son obligatorios</p>
                                 </div>
-                                <label class="control-label">Cuenta de Origen*</label>
-                                <select class="form-control"  id="account_origin" name="account_origin" placeholder="Seleccione la cuenta" 
+                                <label class="control-label">Nombre del cliente*</label>
+                                <select class="form-control"  id="client_id" name="client_id" placeholder="Seleccione la cuenta" 
                                     required>
-                                    <option value="0">Seleccione la cuenta de Origen</option>
-                                    {{-- @foreach (Auth::user()->accounts->where('status','Activa') as $account)
-                                        <option value="{{ $account->id }}"> {{ $account->number }}</option>
-                                    @endforeach --}}
+                                    <option value="0">Seleccione el cliente</option>
+                                    @foreach ($clients->where('revoked',0) as $client)
+                                        <option value="{{ $client->id }}"> {{ $client->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="alert alert-dark" id="otheroriginAlert" name="otheroriginAlert"  role="alert" style="display:none">
                                 
-                                <p class="text-white text-center" >Debes seleccionar una cuenta de origen</p>
+                                <p class="text-white text-center" >Debes seleccionar el cliente</p>
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label class="control-label">Cuenta destino de tercero*</label>
                                 <select class="form-control" id="account_final" name="account_final" placeholder="Seleccione la cuenta destino"
                                     required>
                                     <option value="0">Seleccione la cuenta destino</option>
-                                    {{-- @foreach (Auth::user()->otherAccounts as $account)
+                                    @foreach (Auth::user()->otherAccounts as $account)
                                         <option value="{{ $account->account->id }}"> {{ $account->account->number }}</option>
-                                    @endforeach --}}
+                                    @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="alert alert-dark" id="otherfinalAlert1" name="otherfinalAlert1"  role="alert" style="display:none">
                                 
                                 <p class="text-white text-center" >La cuenta de origen no puede ser igual la cuenta destino</p>
@@ -50,9 +50,9 @@
                                 <p class="text-white text-center" >Debes seleccionar una cuenta destino</p>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Monto a transferir *</label>
-                                <input class="form-control" id="value" name="value" type=""
-                                    placeholder="Ingresa el valor a transferir" required>
+                                <label class="control-label">Nombre del negocio *</label>
+                                <input class="form-control" id="business_name" name="business_name" type="text"
+                                    placeholder="Ingresa el nombre del cliente" required>
                             </div>
                             <div class="alert alert-dark" id="othervalueAlert" name="othervalueAlert"  role="alert" style="display:none">
                                 <p class="text-white text-center" >El valor a transferir no puede ser igual a cero</p>
@@ -62,7 +62,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit"  class="btn btn-info" id="btnTransfer" name="btnTransfer"><span id="btntext"
-                                        class="bg-light"></span>Transferir</button>
+                                        class="bg-light"></span>Crear</button>
                             </div>
                         </form>
                         

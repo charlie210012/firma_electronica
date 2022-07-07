@@ -90,6 +90,9 @@
                         <form action="{{url('/custody')}}" method="POST" role="form text-left">
                             @csrf
                             <div class="mb-3">
+                                <div class="alert alert-dark" id="originAlert" name="originAlert"  role="alert" style={{!isset($mensaje)?'display:none':'display:block'}}>
+                                    <p class="text-white text-center" >{{isset($mensaje)?$mensaje:''}}</p>
+                                </div>
                                 <span>Número de identificación</span>
                                 <div class="@error('name') border border-danger rounded-3  @enderror">
                                     <input wire:model="identifier" id="identifier" name = "identifier" type="number" class="form-control" placeholder="Identificación"
@@ -114,7 +117,7 @@
                                 @error('name') <div class="text-danger">{{ $message }}</div> @enderror
                             </div>
                             <div class="mb-3">
-                                <span>Fecha de nacimiento</span>
+                                <span>Numero de telefono</span>
                                 <div class="@error('name') border border-danger rounded-3  @enderror">
                                     <input wire:model="name" type="number" id="phone" name = "phone" class="form-control" placeholder="Telefono"
                                         aria-label="Name" aria-describedby="email-addon">
@@ -141,6 +144,7 @@
                                 @error('email') <div class="text-danger">{{ $message }}</div> @enderror
                             </div> --}}
                             <div class="mb-3">
+                                <span>Ingresar contraseña</span>
                                 <div class="@error('password') border border-danger rounded-3 @enderror">
                                     <input wire:model="password" id="password" name="password"  type="password" class="form-control"
                                         placeholder="Contraseña" aria-label="Password"

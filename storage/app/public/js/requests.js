@@ -6,7 +6,7 @@ $('#createClient').submit(function (e) {
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-        url:  '/oauth/clients',
+        url:  '/clients',
         data: datos,
         success: function(r){
             console.log(r);
@@ -14,7 +14,7 @@ $('#createClient').submit(function (e) {
             if(r['status']=="Error"){
                 Swal.fire({        
                 title: '¡Atención!',
-                text: r['mensaje'], 
+                text: 'Se ha generado un error al crear el cliente', 
                 icon: 'error',
                 }).then((result)=>{
                     $('#ownModal').modal('show');
@@ -22,7 +22,47 @@ $('#createClient').submit(function (e) {
             }else{
                 Swal.fire({        
                 title: '¡Felicidades!',
-                text: r['mensaje'],
+                text: 'El cliente fue creado exitosamente',
+                icon: 'success',
+                 }).then((result) =>{
+                        location.reload();
+                 });
+                    
+            }
+            
+            
+        }
+        
+    })
+    return false
+
+});
+
+$('#addBusiness').submit(function (e) { 
+    e.preventDefault();
+    var datos = $(this).serialize();
+    $.ajax({
+        type: "POST",
+        headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+        url:  '/business',
+        data: datos,
+        success: function(r){
+            console.log(r);
+            $('#otherModal').modal('hide');
+            if(r['status']=="Error"){
+                Swal.fire({        
+                title: '¡Atención!',
+                text: 'Se ha generado un error al crear el negocio', 
+                icon: 'error',
+                }).then((result)=>{
+                    $('#otherModal').modal('show');
+                });
+            }else{
+                Swal.fire({        
+                title: '¡Felicidades!',
+                text: 'El negocio fue creado exitosamente',
                 icon: 'success',
                  }).then((result) =>{
                         location.reload();
@@ -167,42 +207,103 @@ $('#clients').DataTable({
 
 function borrar(id)
 {
-    $.ajax({
-        type: "DELETE",
-        headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-        url:  '/oauth/clients/'+id,
-        data: '',
-        success: function(r){
-            console.log(r)
-
-            // $('#registerOtherModal').modal('hide');
-            // if(r['status']=="Error"){
-            //     Swal.fire({        
-            //     title: '¡Atención!',
-            //     text: r['mensaje'], 
-            //     icon: 'error',
-            //     }).then((result)=>{
-            //         $('#registerOtherModal').modal('show');
-            //     });
-            // }else{
-            //     Swal.fire({        
-            //     title: '¡Felicidades!',
-            //     text: r['mensaje'],
-            //     icon: 'success',
-            //      }).then((result) =>{
-            //             location.reload();
-            //      });
+    Swal.fire({
+        title: 'Estas segur@?',
+        text: "No podras revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Si, deseo eliminarlo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "DELETE",
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                url:  '/oauth/clients/'+id,
+                data: '',
+                success: function(r){
+                    console.log(r)
+                    if(r != undefined){
+                        Swal.fire({        
+                        title: '¡Atención!',
+                        text:'No se pudo eliminar a este cliente', 
+                        icon: 'error',
+                        }).then((result)=>{
+                            $('#registerOtherModal').modal('show');
+                        });
+                    }else{
+                        Swal.fire({        
+                        title: '¡Felicidades!',
+                        text: 'El cliente ha sido eliminado con exito',
+                        icon: 'success',
+                        }).then((result) =>{
+                                location.reload();
+                        });
+                            
+                    }
                     
-            // }
-            
-            
+                    
+                }
+                
+            })
+        //   Swal.fire(
+        //     'Deleted!',
+        //     'Your file has been deleted.',
+        //     'success'
+        //   )
         }
-        
-    })
-
-    console.log(id);
+      })
 }
 
- 
+function borrarBusiness(id)
+{
+    Swal.fire({
+        title: 'Estas segur@?',
+        text: "No podras revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Si, deseo eliminarlo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                url:  '/business/'+id,
+                data: '',
+                success: function(r){
+                    console.log(r)
+                    if(r['status'] !== 'OK'){
+                        Swal.fire({        
+                        title: '¡Atención!',
+                        text:'No se pudo eliminar a este cliente', 
+                        icon: 'error',
+                        }).then((result)=>{
+                            $('#registerOtherModal').modal('show');
+                        });
+                    }else{
+                        Swal.fire({        
+                        title: '¡Felicidades!',
+                        text: 'El cliente ha sido eliminado con exito',
+                        icon: 'success',
+                        }).then((result) =>{
+                                location.reload();
+                        });
+                            
+                    }
+                    
+                    
+                }
+                
+            })
+        }
+      })
+}

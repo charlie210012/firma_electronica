@@ -119,7 +119,7 @@ class SignController extends Controller
 
 
         if($firma->otp !== $request->otp){
-            return 'El codigo otp esta erroneo';
+            return Redirect("/custody/$request->token")->with('otp',true);
         }else{
            $firma->status=1;
            $firma->save();
@@ -203,11 +203,16 @@ class SignController extends Controller
     public function process(Request $request)
     {
         //Hacer la validaciones correctas
+        //Hacer validaciones de fecha
         $firma = firma::find($request->firma_id);
         $user =User::find($request->user_id);
+        $registro = tokenView::where('tokenView',$request->token)->first();
        
         if(!Hash::check($request->password,$user->password)){
-            return "Contraseña erronea";
+            return view('custody.autentic',[
+                'registro' => $registro,
+                'mensaje'=>'Error en las credenciales'
+            ]);
         }
 
 

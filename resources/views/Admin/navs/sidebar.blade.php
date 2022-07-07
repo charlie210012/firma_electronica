@@ -52,15 +52,15 @@
                 </li> 
             
                 <li class="nav-item">
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="{{route('business')}}">
                         <i class="fa-solid fa-money-bill-transfer"></i>
                         <span class="nav-link-text ms-1">Negocios</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="{{route('documents')}}">
                         <i class="fa-solid fa-money-bill-trend-up"></i>
-                        <span class="nav-link-text ms-1">Usuarios</span>
+                        <span class="nav-link-text ms-1">Documentos</span>
                     </a>
                 </li>
           
@@ -80,7 +80,7 @@
                 <div class="docs-info">
                     <h6 class="text-white up mb-0">Necesitas ayuda?</h6>
                     <p class="text-xs font-weight-bold">Por favor revisa el readme del repositorio</p>
-                    <a href="https://github.com/charlie210012/pruebaCognox#readme" target="_blank" class="btn btn-white btn-sm w-100 mb-0">Repositorio</a>
+                    <a href="https://documenter.getpostman.com/view/21600536/UzBpLRgN#a9c35ee9-05a1-4c71-899b-4b4a17d2122b" target="_blank" class="btn btn-white btn-sm w-100 mb-0">Repositorio</a>
                 </div>
             </div>
         </div>

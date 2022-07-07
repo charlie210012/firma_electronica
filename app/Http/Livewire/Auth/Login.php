@@ -18,12 +18,12 @@ class Login extends Component
         'password' => 'required',
     ];
 
-    public function mount() {
-        if(auth()->user()){
-            redirect('/dashboard');
-        }
-        $this->fill(['email' => 'admin@nexura.com', 'password' => 12345678]);
-    }
+    // public function mount() {
+    //     if(auth()->user()){
+    //         redirect('/dashboard');
+    //     }
+    //     $this->fill(['email' => 'admin@nexura.com', 'password' => 12345678]);
+    // }
 
     public function login() {
         $credentials = $this->validate();
