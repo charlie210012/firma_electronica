@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Business;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Services\ValidateClient\ValidateClient;
 use App\Services\ValidateRequest\ValidateRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class BusinessController extends Controller
 {
@@ -35,6 +36,15 @@ class BusinessController extends Controller
             'client_id'=>$client_id,
             'token'=>Hash::make($request->business_name.$client_id)
         ]);
+        if($business){
+            User::create([
+                'name'=>'Administrador de '.$business->business_name,
+                'email'=>$request->emailAdmin,
+                'password'=>Hash::make('Temporal2022*'),
+                'client_id'=>$client_id,
+                'business_id'=>$business->id
+            ]);
+        }
         return response([
             'mensaje'=>'El negocio a sido creado correctamente',
             'datos'=>json_decode(json_encode([

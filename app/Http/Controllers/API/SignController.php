@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use Laravel\Passport\Client;
 use PDF;
 use PDFMerger;
+use Illuminate\Support\Facades\Log;
 
 
 class SignController extends Controller
@@ -48,6 +49,7 @@ class SignController extends Controller
         //Delegar la responsabilidad de verificacion a la plataforma
         //Recordar hacer una validacion de datos
         $evaluate = ValidateRequest::evaluate($request,'Sign');
+        
         if(!empty($evaluate)) {
             return $evaluate;
         }

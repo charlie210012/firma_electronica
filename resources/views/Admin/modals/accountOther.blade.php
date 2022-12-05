@@ -54,6 +54,11 @@
                                 <input class="form-control" id="business_name" name="business_name" type="text"
                                     placeholder="Ingresa el nombre del cliente" required>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label">Correo de administrador*</label>
+                                <input class="form-control" id="emailAdmin" name="emailAdmin" type="email"
+                                    placeholder="¿Cual es el correo del administrador?" required>
+                            </div>
                             <div class="alert alert-dark" id="othervalueAlert" name="othervalueAlert"  role="alert" style="display:none">
                                 <p class="text-white text-center" >El valor a transferir no puede ser igual a cero</p>
                             </div>
