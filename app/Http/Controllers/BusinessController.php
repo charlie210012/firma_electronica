@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Business;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -20,11 +21,23 @@ class BusinessController extends Controller
 
     public function create(Request $request)
     {
+        
         $business = Business::create([
             'business_name'=>$request->business_name,
             'client_id'=>$request->client_id,
             'token'=>Hash::make($request->business_name.$request->client_id)
         ]);
+
+        
+        if($business){
+            User::create([
+                'name'=>'Administrador de '.$business->business_name,
+                'email'=>$request->emailAdmin,
+                'password'=>Hash::make('Temporal2022*'),
+                'client_id'=>$request->client_id,
+                'business_id'=>$business->id
+            ]);
+        }
 
         if ($business){
             return response([
